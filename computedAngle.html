@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text"id="A"placeholder="请输入A坐标">
+    <input type="text"id="B"placeholder="请输入B坐标">
+    <input type="text"id="C"placeholder="请输入C坐标">
+<input type="button"id="computbtn" value="计算">
+    <script>
+        var computor={
+            oridata:{
+            },
+            methods:{
+                getData:function(a,b,c){
+                    computor.oridata.a=a.split(',');
+                    computor.oridata.b=b.split(',');
+                    computor.oridata.c=c.split(',');
+                    console.log(computor.oridata)
+                    return this;
+                },
+                //获取从B开始的向量
+                getVectorFromb:function(o){
+                    var A=[+o[0]-(+computor.oridata.b[0]),+o[1]-(+computor.oridata.b[1]),+o[2]-(+computor.oridata.b[2])];
+                    return A;
+                },
+                //计算点积
+                getDotMetrix:function(A,C){
+                  return (A[0]*C[0]+A[1]*C[1]+A[2]*C[2])
+                },
+                //计算模
+                getMo:function(arr){
+                    var result=Math.pow(arr[0],2)+Math.pow(arr[1],2)+Math.pow(arr[2],2);
+                    
+                    var mo=Math.sqrt(result);
+                    return mo;
+                },
+                getResult:function(){
+                    var A=this.getVectorFromb(computor.oridata.a);
+                    var C=this.getVectorFromb(computor.oridata.c);
+                    var APointC=this.getDotMetrix(A,C);
+                    var moA=this.getMo(A);
+                    var moC=computor.methods.getMo(C);
+                    var seta=Math.acos(APointC/(moA*moC));
+                    var dushu=seta*180/Math.PI;
+                    document.write("度数：");
+                    console.log(dushu.toFixed(8));
+                    document.write(dushu.toFixed(8) +"("+seta.toFixed(8)+")");
+                }
+            }
+        }
+//computor.methods.getResult();
+var btn=document.getElementById("computbtn");
+btn.onclick=function(){
+    var a=document.getElementById("A").value;
+    var b=document.getElementById("B").value;
+    var c=document.getElementById("C").value;
+    computor.methods.getData(a,b,c).getResult()
+}
+    </script>
+</body>
+</html>
